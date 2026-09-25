@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="白い紙おむつ">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eef8f7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#52716d" flood-opacity=".2"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <path d="M93 134c40-22 94-34 163-34s123 12 163 34l-22 117c-8 41-22 75-42 101-25 32-58 55-99 68-41-13-74-36-99-68-20-26-34-60-42-101z" fill="url(#body)" stroke="#6ea9ad" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M101 139c42 25 94 37 155 37s113-12 155-37" fill="none" stroke="#a6dfe2" stroke-width="28" stroke-linecap="round"/>
+    <path d="M88 153l-45 31 12 65 70-16 12-82zM424 153l45 31-12 65-70-16-12-82z" fill="#d8f0ef" stroke="#6ea9ad" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M127 243c35 8 65 29 87 63M385 243c-35 8-65 29-87 63" fill="none" stroke="#b8dddd" stroke-width="14" stroke-linecap="round"/>
+    <path d="M217 190h78l-9 161c-2 25-14 46-30 55-16-9-28-30-30-55z" fill="#d9eff5"/>
+    <path d="M221 212h70M225 245h62" stroke="#8fcbd1" stroke-width="9" stroke-linecap="round"/>
+    <path d="M174 347c25 16 53 24 82 24s57-8 82-24" fill="none" stroke="#9ed4d4" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="256" cy="285" r="14" fill="#f4d46d"/>
+  </g>
+</svg>

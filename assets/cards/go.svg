@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="行きたい">
+  <defs><filter id="shadow" x="-20%" y="-20%" width="150%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#3f6257" flood-opacity=".18"/></filter></defs>
+  <g filter="url(#shadow)">
+    <rect x="348" y="90" width="105" height="305" rx="14" fill="#f8f4e9" stroke="#73998e" stroke-width="11"/><rect x="375" y="122" width="78" height="273" rx="5" fill="#d8eee7"/><circle cx="431" cy="252" r="9" fill="#f0c95d"/>
+    <circle cx="168" cy="150" r="52" fill="#f1c3a0"/><path d="M119 152c-5-57 24-91 63-91 43 0 69 38 52 96-15-29-47-49-94-25z" fill="#40332e"/>
+    <path d="M128 215q45-23 90 0l15 120h-120z" fill="#74a9c6" stroke="#547f96" stroke-width="7"/><path d="M131 245h83M127 280h94" stroke="#fff" stroke-width="12"/>
+    <path d="M135 333l-35 92M205 333l55 79" fill="none" stroke="#65745b" stroke-width="30" stroke-linecap="round"/><path d="M216 239q55 3 91 32" fill="none" stroke="#f1c3a0" stroke-width="25" stroke-linecap="round"/>
+    <path d="M254 189h104v-39l78 64-78 64v-39H254z" fill="#5bb98c" stroke="#348266" stroke-width="8" stroke-linejoin="round"/>
+  </g>
+</svg>
