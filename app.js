@@ -1,10 +1,12 @@
 const SETTINGS_KEY = "futakoto-settings";
 
 const firstCards = [
-  { id: "bottle", word: "お水", emoji: "🥤", color: "#d8eef7" },
+  { id: "bottle", word: "お水", image: "./assets/cards/water-bottle.svg", emoji: "", color: "#d8eef7" },
   { id: "milk", word: "牛乳", emoji: "🥛", color: "#f2eee2" },
   { id: "ipad", word: "iPad", image: "./assets/cards/ipad-mini.svg", emoji: "", color: "#e4e2f5" },
-  { id: "snack", word: "お菓子", emoji: "🍪", color: "#f6e4b9" },
+  { id: "snack", word: "お菓子", image: "./assets/cards/shrimp-cracker.svg", emoji: "", color: "#dcebf5" },
+  { id: "chocolate", word: "チョコ", image: "./assets/cards/chocolate-goona.svg", emoji: "", color: "#f3e2d8" },
+  { id: "yogurt", word: "ヨーグルト", image: "./assets/cards/yogurt-strawberry.svg", emoji: "", color: "#f4e8ed" },
   { id: "diaper", word: "おむつ", image: "./assets/cards/diaper.svg", emoji: "", color: "#d9eee9" },
   { id: "toilet", word: "トイレ", image: "./assets/cards/toilet.svg", emoji: "", color: "#dceff3" },
 ];
@@ -21,13 +23,40 @@ const secondCards = [
 
 const scenarios = [
   {
-    id: "ipad-want",
-    image: "./assets/scenes/ipad-want-keiju-v4.jpg",
+    id: "ipad-get",
+    image: "./assets/scenes/ipad-usm-keiju-v7.jpg",
     first: "ipad",
-    second: "want",
-    phrase: "iPad、やりたい",
-    before: "iPadをママに持ってきて、やってもよいか伝える場面",
-    after: "ママに見守られながらiPadを楽しんでいる場面",
+    second: "get",
+    phrase: "iPad、取って",
+    before: "USMハラーの中にある、手の届かないiPadを取ってほしい場面",
+    after: "ママがiPadを取り出して渡した場面",
+  },
+  {
+    id: "ipad-please",
+    image: "./assets/scenes/ipad-please-keiju-v1.jpg",
+    first: "ipad",
+    second: "please",
+    phrase: "iPad、ちょうだい",
+    before: "目の前でママが持っているiPadがほしい場面",
+    after: "ママからiPadを受け取った場面",
+  },
+  {
+    id: "ipad-open",
+    image: "./assets/scenes/ipad-open-keiju-v1.jpg",
+    first: "ipad",
+    second: "open",
+    phrase: "iPad、あけて",
+    before: "青いカバーが閉じたiPadを開いてほしい場面",
+    after: "ママがiPadのカバーを開いた場面",
+  },
+  {
+    id: "milk-get",
+    image: "./assets/scenes/milk-get-keiju-v1.jpg",
+    first: "milk",
+    second: "get",
+    phrase: "牛乳、取って",
+    before: "冷蔵庫の中にある、見えない牛乳を取ってほしい場面",
+    after: "ママが冷蔵庫から牛乳を取り出して渡した場面",
   },
   {
     id: "milk-please",
@@ -39,31 +68,130 @@ const scenarios = [
     after: "ママから牛乳を受け取った場面",
   },
   {
+    id: "milk-open",
+    image: "./assets/scenes/milk-open-keiju-v1.jpg",
+    first: "milk",
+    second: "open",
+    phrase: "牛乳、あけて",
+    before: "ふたが閉じた牛乳を開けてほしい場面",
+    after: "ママが牛乳のふたを開けた場面",
+  },
+  {
     id: "water-bottle",
-    image: "./assets/scenes/water-bottle-keiju-v4.jpg",
+    image: "./assets/scenes/water-bottle-keiju-v5.jpg",
     first: "bottle",
     second: "get",
     phrase: "お水、取って",
-    before: "キッチンの水筒に手を伸ばしている場面",
+    before: "手の届かない場所にある水筒を取ってほしい場面",
     after: "ママから水筒を受け取った場面",
   },
   {
+    id: "water-bottle-please",
+    image: "./assets/scenes/water-bottle-please-keiju-v1.jpg",
+    first: "bottle",
+    second: "please",
+    phrase: "お水、ちょうだい",
+    before: "目の前でママが持っている水筒がほしい場面",
+    after: "ママから水筒を受け取った場面",
+  },
+  {
+    id: "water-bottle-open",
+    image: "./assets/scenes/water-bottle-open-keiju-v1.jpg",
+    first: "bottle",
+    second: "open",
+    phrase: "お水、あけて",
+    before: "ふたが閉じた水筒を開けてほしい場面",
+    after: "ママが水筒のふたを開けた場面",
+  },
+  {
+    id: "snack-get",
+    image: "./assets/scenes/snack-get-keiju-v1.jpg",
+    first: "snack",
+    second: "get",
+    phrase: "お菓子、取って",
+    before: "高い棚にある、手の届かないお菓子を取ってほしい場面",
+    after: "ママが棚からお菓子を取って渡した場面",
+  },
+  {
     id: "snack-please",
-    image: "./assets/scenes/snack-more-keiju-v3.jpg",
+    image: "./assets/scenes/snack-more-keiju-v4.jpg",
     first: "snack",
     second: "please",
     phrase: "お菓子、ちょうだい",
-    before: "ママが持っているお菓子をほしい場面",
-    after: "ママがお皿におやつを置いた場面",
+    before: "目の前でママが持っているお菓子がほしい場面",
+    after: "ママがお皿にお菓子を置いた場面",
   },
   {
     id: "snack-open",
-    image: "./assets/scenes/snack-open-keiju-v3.jpg",
+    image: "./assets/scenes/snack-open-keiju-v4.jpg",
     first: "snack",
     second: "open",
     phrase: "お菓子、あけて",
     before: "開いていないお菓子の袋を開けてほしい場面",
     after: "ママがお菓子の袋を開けた場面",
+  },
+  {
+    id: "chocolate-get",
+    image: "./assets/scenes/chocolate-get-keiju-v1.jpg",
+    first: "chocolate",
+    second: "get",
+    phrase: "チョコ、取って",
+    before: "高い棚にある、手の届かないチョコを取ってほしい場面",
+    after: "ママが棚からチョコを取って渡した場面",
+  },
+  {
+    id: "chocolate-please",
+    image: "./assets/scenes/chocolate-please-keiju-v1.jpg",
+    first: "chocolate",
+    second: "please",
+    phrase: "チョコ、ちょうだい",
+    before: "ママが持っているGOONAのチョコがほしい場面",
+    after: "ママから丸いチョコをもらった場面",
+  },
+  {
+    id: "chocolate-open",
+    image: "./assets/scenes/chocolate-open-keiju-v1.jpg",
+    first: "chocolate",
+    second: "open",
+    phrase: "チョコ、あけて",
+    before: "閉じたチョコの袋を開けてほしい場面",
+    after: "ママがチョコの袋を開けた場面",
+  },
+  {
+    id: "yogurt-get",
+    image: "./assets/scenes/yogurt-get-keiju-v1.jpg",
+    first: "yogurt",
+    second: "get",
+    phrase: "ヨーグルト、取って",
+    before: "冷蔵庫の中にある、見えないヨーグルトを取ってほしい場面",
+    after: "ママが冷蔵庫からヨーグルトを取り出して渡した場面",
+  },
+  {
+    id: "yogurt-please",
+    image: "./assets/scenes/yogurt-please-keiju-v2.jpg",
+    first: "yogurt",
+    second: "please",
+    phrase: "ヨーグルト、ちょうだい",
+    before: "目の前でママが持っているヨーグルトがほしい場面",
+    after: "ママからヨーグルトを受け取った場面",
+  },
+  {
+    id: "yogurt-open",
+    image: "./assets/scenes/yogurt-open-keiju-v1.jpg",
+    first: "yogurt",
+    second: "open",
+    phrase: "ヨーグルト、あけて",
+    before: "ふたが閉じたヨーグルトを開けてほしい場面",
+    after: "ママがヨーグルトのふたを開けた場面",
+  },
+  {
+    id: "ipad-want",
+    image: "./assets/scenes/ipad-want-keiju-v4.jpg",
+    first: "ipad",
+    second: "want",
+    phrase: "iPad、やりたい",
+    before: "iPadをママに持ってきて、やってもよいか伝える場面",
+    after: "ママに見守られながらiPadを楽しんでいる場面",
   },
   {
     id: "diaper-change",
@@ -181,12 +309,8 @@ function makeRoundChoices() {
 }
 
 function renderProgress() {
-  elements.progress.innerHTML = scenarios
-    .map((_, index) => {
-      const className = index < state.scenarioIndex ? "done" : index === state.scenarioIndex ? "active" : "";
-      return `<span class="${className}" aria-hidden="true">${index < state.scenarioIndex ? "★" : "●"}</span>`;
-    })
-    .join("");
+  elements.progress.innerHTML = `<span class="progress-count" aria-hidden="true">⭐ ${state.scenarioIndex + 1} / ${scenarios.length}</span>`;
+  elements.progress.setAttribute("aria-label", `${scenarios.length}場面中${state.scenarioIndex + 1}場面目`);
 }
 
 function renderSlot(element, card, number) {

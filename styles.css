@@ -94,6 +94,13 @@ h1 {
 
 .progress span.done { color: #e0ad00; }
 
+.progress .progress-count {
+  color: #8a6a00;
+  font-size: 1.05rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .adult-button,
 .reset-button,
 .close-button,
@@ -530,6 +537,15 @@ main { padding-top: 22px; }
   min-height: 48px;
   padding: 0 18px;
   background: #ebe7de;
+}
+
+.scene-list-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: var(--ink);
+  text-decoration: none;
 }
 
 .scene-list,

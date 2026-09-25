@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 170" role="img" aria-label="GOONAの丸いチョコ">
+  <path d="M45 18 Q110 8 175 18 L181 151 Q110 162 39 151 Z" fill="#fffaf3" stroke="#7c3827" stroke-width="6"/>
+  <path d="M45 18 Q110 8 175 18 L170 48 H50 Z" fill="#5c281f"/>
+  <text x="110" y="90" text-anchor="middle" font-size="38" font-weight="900" fill="#733525" font-family="sans-serif">GOONA</text>
+  <circle cx="72" cy="124" r="18" fill="#3b211d"/><circle cx="145" cy="126" r="18" fill="#4a2921"/>
+  <circle cx="66" cy="118" r="5" fill="#8a5a45"/><circle cx="139" cy="120" r="5" fill="#93634c"/>
+</svg>

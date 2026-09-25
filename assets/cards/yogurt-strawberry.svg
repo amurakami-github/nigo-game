@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 170" role="img" aria-label="いちごヨーグルト">
+  <path d="M47 50 H173 L158 151 H62 Z" fill="#fff" stroke="#304578" stroke-width="6"/>
+  <rect x="41" y="30" width="138" height="28" rx="10" fill="#f7f7f4" stroke="#304578" stroke-width="6"/>
+  <path d="M59 88 H162 L158 151 H62 Z" fill="#203d77"/>
+  <text x="110" y="78" text-anchor="middle" font-size="18" font-weight="900" fill="#182e5d" font-family="sans-serif">ヨーグルト</text>
+  <path d="M95 116 C79 96 62 121 83 141 C100 154 117 136 110 116 C107 105 101 105 95 116Z" fill="#e84048" stroke="#a91f2a" stroke-width="4"/>
+  <path d="M91 106 l8 -12 l8 12" fill="#47a64b" stroke="#28732e" stroke-width="4"/>
+  <circle cx="88" cy="126" r="2.5" fill="#ffd56e"/><circle cx="101" cy="134" r="2.5" fill="#ffd56e"/>
+</svg>
