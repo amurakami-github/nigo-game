@@ -1,12 +1,12 @@
-const CACHE_NAME = "futakoto-v61";
+const CACHE_NAME = "nigo-game-v63";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css?v=61",
-  "./app.js?v=61",
+  "./styles.css?v=63",
+  "./app.js?v=63",
   "./scene-list.html",
-  "./scene-list.css?v=61",
-  "./scene-list.js?v=61",
+  "./scene-list.css?v=63",
+  "./scene-list.js?v=63",
   "./manifest.webmanifest",
   "./assets/scenes/v45/ipad-usm-KJ-mom-v2.jpg",
   "./assets/scenes/v45/ipad-please-KJ-mom-v2.jpg",

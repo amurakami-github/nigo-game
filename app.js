@@ -7,7 +7,7 @@ const feedbackByAction = Object.freeze({
   open: "どうぞ！",
   want: "どうぞ！",
   come: "きたよ",
-  hug: "どうぞ！",
+  hug: "できたね！",
   help: "どうぞ！",
   watch: "どうぞ！",
   change: "できたね！",

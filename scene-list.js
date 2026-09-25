@@ -44,7 +44,7 @@ function createSceneCard(scene, index) {
   description.textContent = scene.description;
 
   const link = document.createElement("a");
-  link.href = `./index.html?v=61&scene=${scene.id}`;
+  link.href = `./index.html?v=63&scene=${scene.id}`;
   link.textContent = "ゲームで確認";
 
   article.append(title, image, description, link);
