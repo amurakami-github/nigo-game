@@ -1,5 +1,6 @@
 const SPEECH_RATE = 0.82;
 const OUTCOME_FEEDBACK_PAUSE_MS = 650;
+const RECORDED_AUDIO_START_OFFSET_MS = 80;
 
 const feedbackByAction = Object.freeze({
   get: "どうぞ！",
@@ -264,6 +265,41 @@ const scenarios = [
   },
 ];
 
+const responseAudioByText = Object.freeze({
+  どうぞ: "./assets/audio/responses/dozo.m4a",
+  できたね: "./assets/audio/responses/dekitane.m4a",
+  きたよ: "./assets/audio/responses/kitayo.m4a",
+  ちがうよ: "./assets/audio/responses/chigauyo.m4a",
+});
+
+function normalizedSpeechText(text) {
+  return text.normalize("NFKC").replace(/[、。・,!.！?？\s]/g, "").toLowerCase();
+}
+
+function recordedAudioPath(text) {
+  const normalized = normalizedSpeechText(text);
+  const firstCard = firstCards.find((card) => normalizedSpeechText(card.word) === normalized);
+  if (firstCard) return `./assets/audio/words/${firstCard.id}.m4a`;
+
+  const secondCard = secondCards.find((card) => normalizedSpeechText(card.word) === normalized);
+  if (secondCard) return `./assets/audio/actions/${secondCard.id}.m4a`;
+
+  const scenario = scenarios.find((item) => normalizedSpeechText(item.phrase) === normalized);
+  if (scenario) return `./assets/audio/phrases/${scenario.id}.m4a`;
+
+  const response = Object.entries(responseAudioByText).find(
+    ([label]) => normalizedSpeechText(label) === normalized,
+  );
+  return response?.[1] || null;
+}
+
+const recordedAudioPaths = [
+  ...firstCards.map((card) => `./assets/audio/words/${card.id}.m4a`),
+  ...secondCards.map((card) => `./assets/audio/actions/${card.id}.m4a`),
+  ...scenarios.map((scenario) => `./assets/audio/phrases/${scenario.id}.m4a`),
+  ...Object.values(responseAudioByText),
+];
+
 const requestedScenarioId = new URLSearchParams(window.location.search).get("scene");
 const requestedScenarioIndex = scenarios.findIndex((scenario) => scenario.id === requestedScenarioId);
 const initialScenarioIndex =
@@ -300,6 +336,9 @@ let celebrationTimer;
 let toastTimer;
 let autoNextTimer;
 let speechRunId = 0;
+let activeAudio = null;
+const voicePlayer = new Audio();
+voicePlayer.preload = "auto";
 
 function shuffle(items) {
   const result = [...items];
@@ -493,14 +532,18 @@ function chooseJapaneseVoice() {
   return voices.find((voice) => voice.lang === "ja-JP") || voices.find((voice) => voice.lang.startsWith("ja")) || null;
 }
 
-function speakSequence(texts, onComplete = null, pausesAfter = [], onItemStart = null) {
-  if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
-    showToast("この端末では音声を利用できません。");
-    if (onComplete) onComplete();
-    return;
+function stopCurrentVoice() {
+  window.speechSynthesis?.cancel();
+  if (activeAudio) {
+    activeAudio.pause();
+    activeAudio.currentTime = 0;
+    activeAudio = null;
   }
+}
+
+function speakSequence(texts, onComplete = null, pausesAfter = [], onItemStart = null) {
   const currentSpeechRunId = ++speechRunId;
-  window.speechSynthesis.cancel();
+  stopCurrentVoice();
   const voice = chooseJapaneseVoice();
   let finished = false;
   const finish = () => {
@@ -514,20 +557,23 @@ function speakSequence(texts, onComplete = null, pausesAfter = [], onItemStart =
   const speakAt = (index) => {
     if (currentSpeechRunId !== speechRunId) return;
     const text = texts[index];
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "ja-JP";
-    utterance.rate = SPEECH_RATE;
-    utterance.pitch = 1;
-    if (voice) utterance.voice = voice;
-    utterance.onstart = () => {
+    let itemStarted = false;
+    let itemFinished = false;
+    let fallbackStarted = false;
+
+    const startItem = () => {
+      if (itemStarted || currentSpeechRunId !== speechRunId) return;
+      itemStarted = true;
       if (index === 0) {
         elements.firstSlot.classList.add("speaking");
         elements.secondSlot.classList.add("speaking");
       }
       if (onItemStart) onItemStart(index, text);
     };
-    utterance.onend = () => {
-      if (currentSpeechRunId !== speechRunId) return;
+
+    const finishItem = () => {
+      if (itemFinished || currentSpeechRunId !== speechRunId) return;
+      itemFinished = true;
       if (index === texts.length - 1) {
         finish();
         return;
@@ -535,8 +581,52 @@ function speakSequence(texts, onComplete = null, pausesAfter = [], onItemStart =
       const pauseMs = pausesAfter[index] || 0;
       setTimeout(() => speakAt(index + 1), pauseMs);
     };
-    utterance.onerror = finish;
-    window.speechSynthesis.speak(utterance);
+
+    const useSynthesizedVoice = () => {
+      if (fallbackStarted || itemFinished || currentSpeechRunId !== speechRunId) return;
+      fallbackStarted = true;
+      if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+        showToast("この端末では音声を利用できません。");
+        finish();
+        return;
+      }
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "ja-JP";
+      utterance.rate = SPEECH_RATE;
+      utterance.pitch = 1;
+      if (voice) utterance.voice = voice;
+      utterance.onstart = startItem;
+      utterance.onend = finishItem;
+      utterance.onerror = finish;
+      window.speechSynthesis.speak(utterance);
+    };
+
+    const audioPath = recordedAudioPath(text);
+    if (!audioPath) {
+      useSynthesizedVoice();
+      return;
+    }
+
+    const audio = voicePlayer;
+    activeAudio = audio;
+    audio.src = audioPath;
+    audio.currentTime = 0;
+    audio.load();
+    audio.onplaying = () => {
+      setTimeout(startItem, RECORDED_AUDIO_START_OFFSET_MS);
+    };
+    audio.onended = () => {
+      if (activeAudio === audio) activeAudio = null;
+      finishItem();
+    };
+    audio.onerror = () => {
+      if (activeAudio === audio) activeAudio = null;
+      useSynthesizedVoice();
+    };
+    audio.play().catch(() => {
+      if (activeAudio === audio) activeAudio = null;
+      useSynthesizedVoice();
+    });
   };
 
   speakAt(0);
@@ -585,6 +675,7 @@ function init() {
     { passive: false },
   );
   loadRound();
+  recordedAudioPaths.forEach((path) => fetch(path, { cache: "force-cache" }).catch(() => {}));
 
   if ("serviceWorker" in navigator && location.protocol !== "file:") {
     window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
