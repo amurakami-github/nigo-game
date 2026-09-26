@@ -452,8 +452,10 @@ function showOutcome() {
       }, 1800);
     },
     [100, OUTCOME_FEEDBACK_PAUSE_MS],
+    (index) => {
+      if (index === 2 && state.roundId === outcomeRoundId) celebrate();
+    },
   );
-  celebrate();
 }
 
 function loadRound() {
@@ -491,7 +493,7 @@ function chooseJapaneseVoice() {
   return voices.find((voice) => voice.lang === "ja-JP") || voices.find((voice) => voice.lang.startsWith("ja")) || null;
 }
 
-function speakSequence(texts, onComplete = null, pausesAfter = []) {
+function speakSequence(texts, onComplete = null, pausesAfter = [], onItemStart = null) {
   if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
     showToast("この端末では音声を利用できません。");
     if (onComplete) onComplete();
@@ -517,12 +519,13 @@ function speakSequence(texts, onComplete = null, pausesAfter = []) {
     utterance.rate = SPEECH_RATE;
     utterance.pitch = 1;
     if (voice) utterance.voice = voice;
-    if (index === 0) {
-      utterance.onstart = () => {
+    utterance.onstart = () => {
+      if (index === 0) {
         elements.firstSlot.classList.add("speaking");
         elements.secondSlot.classList.add("speaking");
-      };
-    }
+      }
+      if (onItemStart) onItemStart(index, text);
+    };
     utterance.onend = () => {
       if (currentSpeechRunId !== speechRunId) return;
       if (index === texts.length - 1) {
@@ -558,7 +561,29 @@ function showToast(message) {
   }, 2300);
 }
 
+function syncViewportHeight() {
+  const viewportHeight = window.visualViewport?.height || window.innerHeight;
+  document.documentElement.style.setProperty("--app-height", `${Math.round(viewportHeight)}px`);
+}
+
+function preventPageZoom(event) {
+  event.preventDefault();
+}
+
 function init() {
+  syncViewportHeight();
+  window.addEventListener("resize", syncViewportHeight);
+  window.visualViewport?.addEventListener("resize", syncViewportHeight);
+  document.addEventListener("gesturestart", preventPageZoom, { passive: false });
+  document.addEventListener("gesturechange", preventPageZoom, { passive: false });
+  document.addEventListener("gestureend", preventPageZoom, { passive: false });
+  document.addEventListener(
+    "touchmove",
+    (event) => {
+      if (event.touches.length > 1) preventPageZoom(event);
+    },
+    { passive: false },
+  );
   loadRound();
 
   if ("serviceWorker" in navigator && location.protocol !== "file:") {

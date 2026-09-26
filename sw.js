@@ -1,12 +1,12 @@
-const CACHE_NAME = "nigo-game-v63";
+const CACHE_NAME = "nigo-game-v66";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css?v=63",
-  "./app.js?v=63",
+  "./styles.css?v=66",
+  "./app.js?v=66",
   "./scene-list.html",
-  "./scene-list.css?v=63",
-  "./scene-list.js?v=63",
+  "./scene-list.css?v=66",
+  "./scene-list.js?v=66",
   "./manifest.webmanifest",
   "./assets/scenes/v45/ipad-usm-KJ-mom-v2.jpg",
   "./assets/scenes/v45/ipad-please-KJ-mom-v2.jpg",

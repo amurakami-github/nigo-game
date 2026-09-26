@@ -1,4 +1,5 @@
 :root {
+  --app-height: 100svh;
   color-scheme: light;
   --ink: #25332e;
   --muted: #68736e;
@@ -45,6 +46,7 @@ p { margin-top: 0; }
   min-height: 100svh;
   margin: 0 auto;
   padding: max(18px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+  touch-action: none;
 }
 
 .settings-header {
@@ -864,6 +866,21 @@ input:focus-visible {
 
 /* iPad game board: photo above, then three choices and two answer slots. */
 @media (min-width: 600px) {
+  html,
+  body {
+    width: 100%;
+    height: var(--app-height);
+    min-height: var(--app-height);
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  .app-shell {
+    height: var(--app-height);
+    min-height: 0;
+    overflow: hidden;
+  }
+
   main {
     display: grid;
     width: min(1040px, 100%);
@@ -983,13 +1000,45 @@ input:focus-visible {
   .story-card { width: 100%; }
 }
 
-@media (min-width: 900px) and (orientation: landscape) and (max-height: 900px) {
-  .story-card { width: min(720px, 100%); }
+@media (min-width: 768px) and (orientation: landscape) and (max-height: 900px) {
+  main {
+    height: 100%;
+    min-height: 0;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-rows: minmax(0, 1fr) clamp(150px, 27vh, 190px);
+    grid-template-areas:
+      "story story"
+      "choices sentence";
+    align-items: stretch;
+    gap: 10px 12px;
+  }
+
+  .story-card {
+    width: min(720px, 100%);
+    height: min(100%, 480px);
+    align-self: center;
+    margin: 0 auto;
+  }
+
+  .scene-frame {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .sentence-area,
+  .sentence-strip,
+  .choices-area,
+  .choice-grid { min-height: 0; }
+
+  .choices-area,
+  .sentence-area { height: 100%; }
+
   .card-picture,
   .slot-emoji.card-picture {
     width: min(100%, 175px);
     max-width: 175px;
-    height: 138px;
+    height: calc(100% - 42px);
+    max-height: 138px;
   }
   .card-word,
   .slot-word { height: 42px; min-height: 42px; }
